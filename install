@@ -97,10 +97,16 @@ echo
 echo 
 echo '🐚 Shell setup'
 chsh -s /bin/fish
+
+# switch to fish shell
+fish
 # add fisher plugin manager
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 # install fish plugins
 fisher install FabioAntunes/fish-nvm edc/bass
+
+# back to sh
+sh
 
 echo '🎉 shell setup complete!'
 echo
