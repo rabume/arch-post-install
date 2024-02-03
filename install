@@ -7,6 +7,8 @@ echo '##                           ##'
 echo '###############################'
 echo
 
+USER=$(whoami)
+
 if ! builtin type -p 'yay' >/dev/null 2>&1; then
   CWD=`pwd`
   echo '🥣 Installing yay'
@@ -67,18 +69,12 @@ echo '🔧 Set up theme'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark
 
+# create syslinks for theme
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-dark.css" "/home/$USER/.config/gtk-4.0/gtk-dark.css"
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$USER/.config/gtk-4.0/gtk.css"
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$USER/.config/gtk-4.0/assets"
+
 echo '🎉 theme setup complete!'
-echo
-
-echo 
-echo '🐚 Shell setup'
-chsh -s /bin/fish
-# add fisher plugin manager
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-# install fish plugins
-fisher install FabioAntunes/fish-nvm edc/bass
-
-echo '🎉 shell setup complete!'
 echo
 
 echo
@@ -90,6 +86,17 @@ curl -sSL https://git.io/g-install | sh -s -- bash fish
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 echo '🎉 development tools setup complete!'
+echo
+
+echo 
+echo '🐚 Shell setup'
+chsh -s /bin/fish
+# add fisher plugin manager
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+# install fish plugins
+fisher install FabioAntunes/fish-nvm edc/bass
+
+echo '🎉 shell setup complete!'
 echo
 
 echo
