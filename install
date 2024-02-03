@@ -17,32 +17,27 @@ if ! builtin type -p 'yay' >/dev/null 2>&1; then
   cd yay-bin
   makepkg -si
   cd $CWD
+  rm -rf "${tmpdir}"
+  echo '🎉 yay installed!'
+  echo '❗️ Re-run the script to continue'
 fi
 
 echo '📦 Installing base packages'
 yay --noconfirm
+echo '🎉 Base packages installed!'
+echo
 
-echo '📦 Installing packages'
+echo '📦 Installing own packages'
 curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm -
+echo '🎉 Base packages installed!'
+echo
 
 echo '🔧 Download and setup dotfiles'
 git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles
 cd $HOME/dotfiles
 stow --adopt .
 cd $CWD
-echo
-
-echo
-echo '🧹 Cleaning up unwanted packages'
-yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null
-echo
-
-echo
-echo '🧹 Clear pacman and yay cache'
-yay -Sc --noconfirm - 2>/dev/null
-rm -rf ~/.cache/yay/* - 2>/dev/null
-rm -rf ~/.cache/go-build/* - 2>/dev/null
-sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
+echo '🎉 Dotfiles setup complete!'
 echo
 
 echo
@@ -71,6 +66,8 @@ echo
 echo '🔧 Set up theme'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark
+
+echo '🎉 theme setup complete!'
 echo
 
 echo 
@@ -80,6 +77,8 @@ chsh -s /bin/fish
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 # install fish plugins
 fisher install FabioAntunes/fish-nvm edc/bass
+
+echo '🎉 shell setup complete!'
 echo
 
 echo
@@ -89,6 +88,21 @@ curl -sSL https://git.io/g-install | sh -s -- bash fish
 
 # setup node version manager
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+echo '🎉 development tools setup complete!'
+echo
+
+echo
+echo '🧹 Cleaning up unwanted packages'
+yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null
+echo
+
+echo
+echo '🧹 Clear pacman and yay cache'
+yay -Sc --noconfirm - 2>/dev/null
+rm -rf ~/.cache/yay/* - 2>/dev/null
+rm -rf ~/.cache/go-build/* - 2>/dev/null
+sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
 echo
 
 echo
