@@ -26,7 +26,11 @@ echo '📦 Installing packages'
 curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm -
 
 echo '🔧 Download and setup dotfiles'
-curl -Lks https://raw.githubusercontent.com/rabume/dotfiles/arch/setup | /bin/bash
+git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles
+cd $HOME/dotfiles
+stow --adopt .
+cd $CWD
+echo
 
 echo
 echo '🧹 Cleaning up unwanted packages'
