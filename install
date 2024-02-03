@@ -1,0 +1,99 @@
+#!/bin/sh
+
+echo '###############################'
+echo '##                           ##'
+echo '##   📦 Install packages     ##'
+echo '##                           ##'
+echo '###############################'
+echo
+
+if ! builtin type -p 'yay' >/dev/null 2>&1; then
+  CWD=`pwd`
+  echo '🥣 Installing yay'
+  tmpdir="$(command mktemp -d)"
+  command cd "${tmpdir}" || return 1
+  sudo pacman -Sy --needed --noconfirm base base-devel git
+  git clone https://aur.archlinux.org/yay-bin.git
+  cd yay-bin
+  makepkg -si
+  cd $CWD
+fi
+
+echo '📦 Installing base packages'
+yay --noconfirm
+
+echo '📦 Installing packages'
+curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm -
+
+echo '🔧 Download and setup dotfiles'
+curl -Lks https://raw.githubusercontent.com/rabume/dotfiles/arch/setup | /bin/bash
+
+echo
+echo '🧹 Cleaning up unwanted packages'
+yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null
+echo
+
+echo
+echo '🧹 Clear pacman and yay cache'
+yay -Sc --noconfirm - 2>/dev/null
+rm -rf ~/.cache/yay/* - 2>/dev/null
+rm -rf ~/.cache/go-build/* - 2>/dev/null
+sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
+echo
+
+echo
+echo '🔧 Setup services'
+# Docker
+sudo systemctl start docker.service
+sudo systemctl enable docker.service
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# Bluetooth
+sudo systemctl start bluetooth.service
+sudo systemctl enable bluetooth.service
+# Cups
+sudo systemctl start cups
+sudo systemctl enable cups
+# SSH
+sudo systemctl start sshd
+sudo systemctl enable sshd
+
+echo
+echo '🔧 Copy configurations and scripts'
+sudo cp -R $HOME/arch-post-install/etc/X11/* /etc/X11/xorg.conf.d/
+sudo cp -R $HOME/arch-post-install/etc/lightdm/* /etc/lightdm/
+sudo chmod +x $HOME/scripts/*.sh
+echo
+
+echo
+echo '🔧 Set up theme'
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark
+echo
+
+echo 
+echo '🐚 Shell setup'
+chsh -s /bin/fish
+# add fisher plugin manager
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+# install fish plugins
+fisher install FabioAntunes/fish-nvm edc/bass
+echo
+
+echo
+echo '🔧 Setup development tools'
+# setup go version manager
+curl -sSL https://git.io/g-install | sh -s -- bash fish
+
+# setup node version manager
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+echo
+
+echo
+echo '###################################################'
+echo '##                                               ##'
+echo '##          👏 Installation Complete             ##'
+echo '##      reboot to use the new configurations     ##'
+echo '##                                               ##'
+echo '###################################################'
+echo
