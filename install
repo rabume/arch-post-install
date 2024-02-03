@@ -85,6 +85,12 @@ curl -sSL https://git.io/g-install | sh -s -- bash fish
 # setup node version manager
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
+# rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# git profile
+go get -u github.com/dotzero/git-profile
+
 echo '🎉 development tools setup complete!'
 echo
 
