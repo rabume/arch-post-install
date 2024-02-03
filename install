@@ -59,13 +59,6 @@ sudo systemctl start sshd
 sudo systemctl enable sshd
 
 echo
-echo '🔧 Copy configurations and scripts'
-sudo cp -R $HOME/arch-post-install/etc/X11/* /etc/X11/xorg.conf.d/
-sudo cp -R $HOME/arch-post-install/etc/lightdm/* /etc/lightdm/
-sudo chmod +x $HOME/scripts/*.sh
-echo
-
-echo
 echo '🔧 Set up theme'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark
