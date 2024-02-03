@@ -25,19 +25,19 @@ if ! builtin type -p 'yay' >/dev/null 2>&1; then
 fi
 
 echo '📦 Installing base packages'
-yay --noconfirm
+yay --noconfirm >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
 echo '📦 Installing own packages'
-curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm -
+curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm - >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
 echo '🔧 Download and setup dotfiles'
-git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles
+git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles >/dev/null 2>&1
 cd $HOME/dotfiles
-stow --adopt .
+stow --adopt . >/dev/null 2>&1
 cd $CWD
 echo '🎉 Dotfiles setup complete!'
 echo
@@ -45,34 +45,37 @@ echo
 echo
 echo '🏠 Setup home directory'
 mkdir -p $HOME/Pictures/wallpaper
+mkdir -p $HOME/Downloads
+mkdir -p $HOME/Development
+echo '🎉 Home directory setup complete!'
 echo
 
 echo
 echo '🔧 Setup services'
 # Docker
-sudo systemctl start docker.service
-sudo systemctl enable docker.service
-sudo groupadd docker
-sudo usermod -aG docker $USER
+sudo systemctl start docker.service >/dev/null 2>&1
+sudo systemctl enable docker.service >/dev/null 2>&1
+sudo groupadd docker >/dev/null 2>&1
+sudo usermod -aG docker $USER >/dev/null 2>&1
 # Bluetooth
-sudo systemctl start bluetooth.service
-sudo systemctl enable bluetooth.service
+sudo systemctl start bluetooth.service >/dev/null 2>&1
+sudo systemctl enable bluetooth.service >/dev/null 2>&1
 # Cups
-sudo systemctl start cups
-sudo systemctl enable cups
+sudo systemctl start cups >/dev/null 2>&1
+sudo systemctl enable cups >/dev/null 2>&1
 # SSH
-sudo systemctl start sshd
-sudo systemctl enable sshd
+sudo systemctl start sshd >/dev/null 2>&1
+sudo systemctl enable sshd >/dev/null 2>&1
 
 echo
 echo '🔧 Set up theme'
-gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark >/dev/null 2>&1
+gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark >/dev/null 2>&1
 
 # create syslinks for theme
-ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-dark.css" "/home/$USER/.config/gtk-4.0/gtk-dark.css"
-ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$USER/.config/gtk-4.0/gtk.css"
-ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$USER/.config/gtk-4.0/assets"
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-dark.css" "/home/$USER/.config/gtk-4.0/gtk-dark.css" >/dev/null 2>&1
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$USER/.config/gtk-4.0/gtk.css" >/dev/null 2>&1
+ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$USER/.config/gtk-4.0/assets" >/dev/null 2>&1
 
 echo '🎉 theme setup complete!'
 echo
@@ -107,13 +110,7 @@ fisher install FabioAntunes/fish-nvm edc/bass
 
 # back to sh
 sh
-
 echo '🎉 shell setup complete!'
-echo
-
-echo
-echo '🧹 Cleaning up unwanted packages'
-yay -Qtdq | yay -Rns --noconfirm - 2>/dev/null
 echo
 
 echo
@@ -122,6 +119,7 @@ yay -Sc --noconfirm - 2>/dev/null
 rm -rf ~/.cache/yay/* - 2>/dev/null
 rm -rf ~/.cache/go-build/* - 2>/dev/null
 sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
+echo '🎉 Cache cleared!'
 echo
 
 echo
