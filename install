@@ -1,40 +1,45 @@
 #!/bin/sh
 
-echo '###############################'
+echo '################################'
 echo '##                           ##'
-echo '##   📦 Install packages     ##'
+echo '##   🖥️ Setup machine        ##'
 echo '##                           ##'
-echo '###############################'
+echo '################################'
 echo
 
 USER=$(whoami)
+PASSWORD=""
+
+read -s -p '🔑 Enter your user password: ' PASSWORD
+echo
+echo
 
 if ! builtin type -p 'yay' >/dev/null 2>&1; then
   CWD=`pwd`
-  echo '🥣 Installing yay'
+  echo '🥣 Installing yay..'
   tmpdir="$(command mktemp -d)"
   command cd "${tmpdir}" || return 1
-  sudo pacman -Sy --needed --noconfirm base base-devel git
-  git clone https://aur.archlinux.org/yay-bin.git
+  sudo pacman -Sy --needed --noconfirm base base-devel git >/dev/null 2>&1
+  git clone https://aur.archlinux.org/yay-bin.git >/dev/null 2>&1
   cd yay-bin
-  makepkg -si
+  makepkg -si <<< 'yes' >/dev/null 2>&1
   cd $CWD
   rm -rf "${tmpdir}"
   echo '🎉 yay installed!'
-  echo '❗️ Re-run the script to continue'
+  echo
 fi
 
-echo '📦 Installing base packages'
+echo '📦 Installing base packages...'
 yay --noconfirm >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
-echo '📦 Installing own packages'
+echo '📦 Installing own packages...'
 curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm - >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
-echo '🔧 Download and setup dotfiles'
+echo '🔧 Download and setup dotfiles...'
 git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles >/dev/null 2>&1
 cd $HOME/dotfiles
 stow --adopt . >/dev/null 2>&1
@@ -43,32 +48,35 @@ echo '🎉 Dotfiles setup complete!'
 echo
 
 echo
-echo '🏠 Setup home directory'
+echo '🏠 Setup home directory...'
 mkdir -p $HOME/Pictures/wallpaper
 mkdir -p $HOME/Downloads
 mkdir -p $HOME/Development
 echo '🎉 Home directory setup complete!'
 echo
 
-echo
-echo '🔧 Setup services'
+echo '🔧 Setup services...'
 # Docker
 sudo systemctl start docker.service >/dev/null 2>&1
 sudo systemctl enable docker.service >/dev/null 2>&1
 sudo groupadd docker >/dev/null 2>&1
 sudo usermod -aG docker $USER >/dev/null 2>&1
+echo '🎉 Docker setup complete!'
 # Bluetooth
 sudo systemctl start bluetooth.service >/dev/null 2>&1
 sudo systemctl enable bluetooth.service >/dev/null 2>&1
+echo '🎉 Bluetooth setup complete!'
 # Cups
 sudo systemctl start cups >/dev/null 2>&1
 sudo systemctl enable cups >/dev/null 2>&1
+echo '🎉 Cups setup complete!'
 # SSH
 sudo systemctl start sshd >/dev/null 2>&1
 sudo systemctl enable sshd >/dev/null 2>&1
-
+echo '🎉 SSH setup complete!'
 echo
-echo '🔧 Set up theme'
+
+echo '🔧 Set up theme...'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark >/dev/null 2>&1
 gsettings set org.gnome.desktop.interface gtk-theme Catppucin-Mocha-Standard-Lavender-Dark >/dev/null 2>&1
 
@@ -77,43 +85,26 @@ ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-da
 ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$USER/.config/gtk-4.0/gtk.css" >/dev/null 2>&1
 ln -sf "/usr/share/themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$USER/.config/gtk-4.0/assets" >/dev/null 2>&1
 
-echo '🎉 theme setup complete!'
+echo '🎉 Theme setup complete!'
 echo
 
-echo
-echo '🔧 Setup development tools'
-# setup go version manager
-curl -sSL https://git.io/g-install | sh -s -- bash fish
+echo '🔧 Setup development tools...'
 
-# setup node version manager
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-# rustup
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl -sSL https://git.io/g-install | sh -s -- bash fish -y >/dev/null 2>&1
+echo '🎉 Go setup complete!'
 
 # git profile
-go get -u github.com/dotzero/git-profile
-
-echo '🎉 development tools setup complete!'
+go get -u github.com/dotzero/git-profile >/dev/null 2>&1
+echo '🎉 Git profile setup complete!'
 echo
 
-echo 
-echo '🐚 Shell setup'
-chsh -s /bin/fish
-
-# switch to fish shell
-fish
-# add fisher plugin manager
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-# install fish plugins
-fisher install FabioAntunes/fish-nvm edc/bass
-
-# back to sh
-sh
+echo '🐚 Shell setup...'
+chsh -s /bin/fish <<< $PASSWORD >/dev/null 2>&1
+fish && curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher >/dev/null 2>&1
+fish && fisher install FabioAntunes/fish-nvm edc/bass >/dev/null 2>&1
 echo '🎉 shell setup complete!'
 echo
 
-echo
 echo '🧹 Clear pacman and yay cache'
 yay -Sc --noconfirm - 2>/dev/null
 rm -rf ~/.cache/yay/* - 2>/dev/null
