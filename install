@@ -42,6 +42,11 @@ sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
 echo
 
 echo
+echo '🏠 Setup home directory'
+mkdir -p $HOME/Pictures/wallpaper
+echo
+
+echo
 echo '🔧 Setup services'
 # Docker
 sudo systemctl start docker.service
