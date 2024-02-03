@@ -4,7 +4,7 @@ personal arch post install script for a base arch linux installation
 
 ## ✨What does it do?
 
-The script installs yay and all the packages in the [packages.csv](packages.csv) file.
+This script setups my personal arch linux environment. It installs the packages defined in the [packages.csv](packages.csv) file and clones my personal dotfiles from my [dotfiles](https://github.com/rabume/dotfiles) repository.
 
 ## 📦 Installation
 
@@ -75,6 +75,13 @@ To setup SSH, you need to copy your SSH keys to the new machine. You can do this
 
 ```bash
 ssh-copy-id username@<ip>
+```
+
+To always use ssh instead of http for GitHub uncomment the following lines in the `~/.gitconfig` file:
+
+```bash
+[url "git@github.com:"]
+ 	insteadOf = https://github.com/
 ```
 
 ### Setup GPG
