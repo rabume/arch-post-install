@@ -29,13 +29,13 @@ echo
 
 echo '📦 Installing own packages...'
 curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm - >/dev/null 2>&1
-echo '🎉 Base packages installed!'
+echo '🎉 Own packages installed!'
 echo
 
 echo '🔧 Download and setup dotfiles...'
 git clone https://github.com/rabume/dotfiles.git $HOME/dotfiles >/dev/null 2>&1
 cd $HOME/dotfiles
-stow --adopt . >/dev/null 2>&1
+stow --adopt .
 cd $CWD
 echo '🎉 Dotfiles setup complete!'
 echo
@@ -88,11 +88,11 @@ curl -sSL https://git.io/g-install | sh -s -- bash fish -y >/dev/null 2>&1
 echo '🎉 Go setup complete!'
 
 # nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash <<< 'y'
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 echo '🎉 NVM setup complete!'
 
 # git profile
-go get -u github.com/dotzero/git-profile >/dev/null 2>&1
+go install github.com/dotzero/git-profile@latest >/dev/null 2>&1
 echo '🎉 Git profile setup complete!'
 echo
 
@@ -105,12 +105,12 @@ echo '🎉 Cache cleared!'
 echo
 
 echo '🐚 Shell setup...'
-fish && curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher >/dev/null 2>&1
-fish && fisher install FabioAntunes/fish-nvm edc/bass >/dev/null 2>&1
+fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+fish -c "fisher install FabioAntunes/fish-nvm edc/bass"
 
 PASSWORD=""
 read -s -p '🔑 Enter your user password: ' PASSWORD
-chsh -s /bin/fish <<< $PASSWORD >/dev/null 2>&1
+chsh -s /bin/fish <<< $PASSWORD
 echo '🎉 shell setup complete!'
 echo
 
