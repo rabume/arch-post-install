@@ -69,6 +69,22 @@ This script requires intereactive input, so you have to be present during the in
 nmcli connection import type wireguard file wg0.conf
 ```
 
+### Setup Vencord
+
+Vencord is a discord client mod.
+
+```bash
+sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+```
+
+### Setup spotify
+
+Install the spicetify marketplace so you can install themes and extensions.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
+```
+
 ### Setup SSH
 
 To setup SSH, you need to copy your SSH keys to the new machine. You can do this with the following command:
