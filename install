@@ -1,18 +1,11 @@
 #!/bin/sh
 
-echo '################################'
-echo '##                           ##'
-echo '##   🖥️ Setup machine        ##'
-echo '##                           ##'
-echo '################################'
+echo '============================================='
+echo '        Arch Linux Post-Installation         '
+echo '============================================='
 echo
 
 USER=$(whoami)
-PASSWORD=""
-
-read -s -p '🔑 Enter your user password: ' PASSWORD
-echo
-echo
 
 if ! builtin type -p 'yay' >/dev/null 2>&1; then
   CWD=`pwd`
@@ -99,7 +92,7 @@ echo '🎉 Git profile setup complete!'
 echo
 
 echo '🐚 Shell setup...'
-chsh -s /bin/fish <<< $PASSWORD >/dev/null 2>&1
+chsh -s /bin/fish
 fish && curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher >/dev/null 2>&1
 fish && fisher install FabioAntunes/fish-nvm edc/bass >/dev/null 2>&1
 echo '🎉 shell setup complete!'
