@@ -51,6 +51,8 @@ esac
 echo
 echo '📦 Installing base packages...'
 yay --noconfirm >/dev/null 2>&1
+# remove i3lock because we will use betterlockscreen
+yay -R --noconfirm i3lock >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
