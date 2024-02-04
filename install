@@ -7,6 +7,14 @@ echo
 
 USER=$(whoami)
 
+echo '🖥️ What GPU are you using?'
+echo '[1] Intel'
+echo '[2] Nvidia'
+echo '[3] AMD'
+
+read -p '👉 ' GPU
+echo
+
 if ! builtin type -p 'yay' >/dev/null 2>&1; then
   CWD=`pwd`
   echo '🥣 Installing yay..'
@@ -22,13 +30,42 @@ if ! builtin type -p 'yay' >/dev/null 2>&1; then
   echo
 fi
 
+case $GPU in
+  1)
+    echo '🔧 Installing Intel drivers...'
+    yay -Sy --noconfirm xf86-video-intel vulkan-intel >/dev/null 2>&1
+    echo '🎉 Intel drivers installed!'
+    ;;
+  2)
+    echo '🔧 Installing Nvidia drivers...'
+    yay -Sy --noconfirm nvidia nvidia-utils nvidia-settings nvidia-dkms nvidia-prime >/dev/null 2>&1
+    echo '🎉 Nvidia drivers installed!'
+    ;;
+  3)
+    echo '🔧 Installing AMD drivers...'
+    yay -Sy --noconfirm xf86-video-amdgpu mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon >/dev/null 2>&1
+    echo '🎉 AMD drivers installed!'
+    ;;
+esac
+
+echo
 echo '📦 Installing base packages...'
 yay --noconfirm >/dev/null 2>&1
 echo '🎉 Base packages installed!'
 echo
 
 echo '📦 Installing own packages...'
-curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1 | yay -Sy --noconfirm - >/dev/null 2>&1
+packages=$(curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/packages.csv | tail -n +2 | cut -d, -f1)
+total_packages=$(echo "$packages" | wc -l)
+current_package=1
+
+while IFS= read -r package; do
+  printf "[%s/%s] Installing %-30s\r" "$current_package" "$total_packages" "$package"
+  yay -Sy --noconfirm "$package" >/dev/null 2>&1
+  current_package=$((current_package + 1))
+done <<< "$packages"
+
+echo
 echo '🎉 Own packages installed!'
 echo
 
@@ -96,14 +133,6 @@ go install github.com/dotzero/git-profile@latest >/dev/null 2>&1
 echo '🎉 Git profile setup complete!'
 echo
 
-echo '🧹 Clear pacman and yay cache'
-yay -Sc --noconfirm - 2>/dev/null
-rm -rf ~/.cache/yay/* - 2>/dev/null
-rm -rf ~/.cache/go-build/* - 2>/dev/null
-sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
-echo '🎉 Cache cleared!'
-echo
-
 echo '🐚 Shell setup...'
 fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 fish -c "fisher install FabioAntunes/fish-nvm edc/bass"
@@ -112,6 +141,14 @@ PASSWORD=""
 read -s -p '🔑 Enter your user password: ' PASSWORD
 chsh -s /bin/fish <<< $PASSWORD
 echo '🎉 shell setup complete!'
+echo
+
+echo '🧹 Clear pacman and yay cache'
+yay -Sc --noconfirm - 2>/dev/null
+rm -rf ~/.cache/yay/* - 2>/dev/null
+rm -rf ~/.cache/go-build/* - 2>/dev/null
+sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
+echo '🎉 Cache cleared!'
 echo
 
 echo
