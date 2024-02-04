@@ -140,6 +140,7 @@ nerd-fonts-git, "A collection of over 25 patched fonts (over 5,700 variations) &
 lightdm-webkit2-theme-glorious, "A clean, minimal, and elegant LightDM Webkit2 theme"
 spotify, "A proprietary music streaming service"
 spicetify-cli, "Commandline tool to customize Spotify client"
+spotify-tray-git, "A tray icon for Spotify"
 catppuccin-gtk-theme-mocha, "A GTK theme"
 betterlockscreen, "A simple lock script for i3lock"
 sof-firmware, "Sound Open Firmware"
