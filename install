@@ -83,19 +83,17 @@ echo
 
 echo '🔧 Setup development tools...'
 
+# g
 curl -sSL https://git.io/g-install | sh -s -- bash fish -y >/dev/null 2>&1
 echo '🎉 Go setup complete!'
+
+# nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash <<< 'y'
+echo '🎉 NVM setup complete!'
 
 # git profile
 go get -u github.com/dotzero/git-profile >/dev/null 2>&1
 echo '🎉 Git profile setup complete!'
-echo
-
-echo '🐚 Shell setup...'
-chsh -s /bin/fish
-fish && curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher >/dev/null 2>&1
-fish && fisher install FabioAntunes/fish-nvm edc/bass >/dev/null 2>&1
-echo '🎉 shell setup complete!'
 echo
 
 echo '🧹 Clear pacman and yay cache'
@@ -104,6 +102,16 @@ rm -rf ~/.cache/yay/* - 2>/dev/null
 rm -rf ~/.cache/go-build/* - 2>/dev/null
 sudo rm -rf /var/cache/pacman/pkg/* - 2>/dev/null
 echo '🎉 Cache cleared!'
+echo
+
+echo '🐚 Shell setup...'
+fish && curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher >/dev/null 2>&1
+fish && fisher install FabioAntunes/fish-nvm edc/bass >/dev/null 2>&1
+
+PASSWORD=""
+read -s -p '🔑 Enter your user password: ' PASSWORD
+chsh -s /bin/fish <<< $PASSWORD >/dev/null 2>&1
+echo '🎉 shell setup complete!'
 echo
 
 echo
