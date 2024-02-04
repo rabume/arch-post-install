@@ -53,7 +53,7 @@ This script setups my personal arch linux environment. It installs the packages 
 5. **Post arch installation execute the following command with your main user**
 
 ```bash
-curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/install | /bin/bash
+bash <(curl -Lks https://raw.githubusercontent.com/rabume/arch-post-install/main/install)
 ```
 
 This script requires intereactive input, so you have to be present during the installation.
