@@ -69,6 +69,10 @@ This script requires intereactive input, so you have to be present during the in
 nmcli connection import type wireguard file wg0.conf
 ```
 
+### Setup Git profile
+
+Follow the [README.md](https://github.com/dotzero/git-profile/blob/master/README.md) of the git-profile repository.
+
 ### Setup Vencord
 
 Vencord is a discord client mod.
@@ -88,7 +92,6 @@ curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/mai
 - Adblock
 - keybard-shortcuts
 
-
 ### Setup SSH
 
 To setup SSH, you need to copy your SSH keys to the new machine. You can do this with the following command:
@@ -96,12 +99,19 @@ To setup SSH, you need to copy your SSH keys to the new machine. You can do this
 ```bash
 ssh-copy-id username@<ip>
 ```
+Add your SSH keys to the `~/.ssh/config` file.
+
+```bash
+Host github.com
+    IdentityFile ~/.ssh/github
+    AddKeysToAgent yes
+```
 
 To always use ssh instead of http for GitHub uncomment the following lines in the `~/.gitconfig` file:
 
 ```bash
 [url "git@github.com:"]
- 	insteadOf = https://github.com/
+    insteadOf = https://github.com/
 ```
 
 ### Setup GPG
@@ -116,3 +126,8 @@ gpg --import <keyfile>
 
 Setup custom Firefox CSS/JS.
 Follow the instructions on my [github.com/rabume/firefox-css](https://github.com/rabume/firefox-css) repository.
+
+### Setup multiple monitors
+
+Under .screenlayout you can find the screenlayout scripts. You can use them to setup your monitors. The current script
+is configured for a 3 monitor setup. Uncomment the loadings of the scripts in the i3 config file if you want to use them.
