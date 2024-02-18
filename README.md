@@ -77,13 +77,17 @@ Vencord is a discord client mod.
 sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
 ```
 
-### Setup spotify
+### Setup Spicetify
 
 Install the spicetify marketplace so you can install themes and extensions.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
 ```
+##### Extensions
+- Adblock
+- keybard-shortcuts
+
 
 ### Setup SSH
 
@@ -107,3 +111,8 @@ To setup GPG, you need to copy your GPG keys to the new machine. You can do this
 ```bash
 gpg --import <keyfile>
 ```
+
+### Setup Firefox
+
+Setup custom Firefox CSS/JS.
+Follow the instructions on my [github.com/rabume/firefox-css](https://github.com/rabume/firefox-css) repository.
