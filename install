@@ -11,6 +11,7 @@ echo '🖥️ What GPU are you using?'
 echo '[1] Intel'
 echo '[2] Nvidia'
 echo '[3] AMD'
+echo '[4] Skip'
 
 read -p '👉 ' GPU
 echo
@@ -45,6 +46,9 @@ case $GPU in
     echo '🔧 Installing AMD drivers...'
     yay -Sy --noconfirm xf86-video-amdgpu mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon >/dev/null 2>&1
     echo '🎉 AMD drivers installed!'
+    ;;
+  4)
+    echo '🔧 Skipping GPU drivers installation...'
     ;;
 esac
 
