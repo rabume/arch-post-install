@@ -141,8 +141,6 @@ echo '🎉 Bun setup complete!'
 # pyenv
 curl https://pyenv.run | bash
 echo '🎉 Pyenv setup complete!'
-fish -c "set -Ux PYENV_ROOT $HOME/.pyenv"
-fish -c "fish_add_path $PYENV_ROOT/bin"
 
 # git profile
 go install github.com/dotzero/git-profile@latest >/dev/null 2>&1
