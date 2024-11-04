@@ -88,7 +88,9 @@ Install the spicetify marketplace so you can install themes and extensions.
 ```bash
 curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
 ```
+
 ##### Extensions
+
 - Adblock
 - keybard-shortcuts
 
@@ -99,6 +101,7 @@ To setup SSH, you need to copy your SSH keys to the new machine. You can do this
 ```bash
 ssh-copy-id username@<ip>
 ```
+
 Add your SSH keys to the `~/.ssh/config` file.
 
 ```bash
@@ -126,6 +129,7 @@ gpg --import <keyfile>
 
 Setup custom Firefox CSS/JS.
 Follow the instructions on my [github.com/rabume/firefox-css](https://github.com/rabume/firefox-css) repository.
+Use this [catppuccin theme config](https://github.com/catppuccin/userstyles) for the stylus extension.
 
 ### Setup multiple monitors
 
