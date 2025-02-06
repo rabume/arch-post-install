@@ -14,6 +14,10 @@ This script setups my personal arch linux environment. It installs the packages 
    - Boot from USB
    - If you want to install from a other device, you can do that over SSH. Use "passwd" to create a temporary password for the root user.
 
+3. **Set the timezone**
+   - `vim /etc/systemd/timesynced.conf`
+   - Set NTP to: `ch.pool.ntp.org`
+
 2. **Run the command "archinstall"**
 
 3. **Set following settings**
