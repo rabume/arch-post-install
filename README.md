@@ -39,7 +39,7 @@ This script setups my personal arch linux environment. It installs the packages 
      - username: <username>
      - Add to sudo group
    - Profile:
-     - Desktop i3-wm
+     - Desktop gnome or i3
      - Use gpu drivers according to the machine you install
    - Audio: pipewire
    - Kernel: linux
@@ -129,11 +129,17 @@ To setup GPG, you need to copy your GPG keys to the new machine. You can do this
 gpg --import <keyfile>
 ```
 
-### Setup Firefox
+### Setup Zen Browser
 
-Setup custom Firefox CSS/JS.
-Follow the instructions on my [github.com/rabume/firefox-css](https://github.com/rabume/firefox-css) repository.
+Setup custom Zen CSS/JS.
+Follow the instructions on my [github.com/rabume/zen-custom-theme](https://github.com/rabume/zen-custom-theme) repository.
 Use this [catppuccin theme config](https://github.com/catppuccin/userstyles) for the stylus extension.
+
+#### Addons
+- Catppuccin
+- Better Active Tab
+- Floating URLbar
+- SuperPins
 
 ### Setup multiple monitors
 
