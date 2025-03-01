@@ -132,13 +132,11 @@ gpg --import <keyfile>
 ### Setup Zen Browser
 
 Setup custom Zen CSS/JS.
-Follow the instructions on my [github.com/rabume/zen-custom-theme](https://github.com/rabume/zen-custom-theme) repository.
+Follow the instructions in the [catppuccin/zen-browser](https://github.com/catppuccin/zen-browser) repository.
 Use this [catppuccin theme config](https://github.com/catppuccin/userstyles) for the stylus extension.
 
 #### Addons
-- Catppuccin
 - Better Active Tab
-- Floating URLbar
 - SuperPins
 
 ### Setup multiple monitors
